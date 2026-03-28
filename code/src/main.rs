@@ -39,14 +39,14 @@ pub struct Game {
 
 impl Game {
     fn new(level: u8) -> Game {
-        let mut rng = rand::thread_rng();
+        let mut rng = rand::rng();
 
         //get unique set of random numbers
         let mut numbers: Vec<u8> = Vec::new();
         for _ in 0..level*2 {
-            let mut number = rng.gen_range(0..100);
+            let mut number = rng.random_range(0..100);
             while numbers.contains(&number) {
-                number = rng.gen_range(0..100);
+                number = rng.random_range(0..100);
             }
             numbers.push(number);
         }
@@ -87,7 +87,7 @@ impl Game {
 
 async fn games_handler(games: Games) -> Result<impl Reply> {
     //get random index
-    let index = rand::thread_rng().gen_range(0..50);
+    let index = rand::rng().random_range(0..50);
     let games = games.lock().unwrap(); 
     if let Some(game_and_id) = games.get(&index){
         let uuid = Uuid::new_v4();
